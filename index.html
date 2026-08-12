@@ -597,6 +597,144 @@
     transition: color 0.2s;
   }
 
+  .contact-form-wrap {
+    max-width: 640px;
+    margin: 4rem auto 0;
+    text-align: left;
+  }
+
+  .contact-form-wrap h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-field label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 32, 61, 0.72);
+  }
+
+  .form-field input,
+  .form-field textarea {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid rgba(0, 32, 61, 0.22);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(215, 234, 245, 0.8);
+  }
+
+  .form-field textarea {
+    min-height: 140px;
+    resize: vertical;
+  }
+
+  .form-interesse {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .form-interesse legend {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 32, 61, 0.72);
+    margin-bottom: 0.75rem;
+  }
+
+  .form-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .form-checkboxes label {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    text-transform: none;
+    letter-spacing: normal;
+    font-weight: 500;
+  }
+
+  .form-checkboxes input[type="checkbox"] {
+    margin-top: 0.2rem;
+    accent-color: var(--accent);
+  }
+
+  .form-submit {
+    align-self: center;
+    margin-top: 0.5rem;
+    cursor: pointer;
+  }
+
+  .form-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .form-message {
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    display: none;
+  }
+
+  .form-message--success {
+    display: block;
+    background: rgba(0, 90, 145, 0.1);
+    color: var(--primary);
+    border: 1px solid rgba(0, 90, 145, 0.25);
+  }
+
+  .form-message--error {
+    display: block;
+    background: rgba(196, 13, 0, 0.08);
+    color: var(--accent);
+    border: 1px solid rgba(196, 13, 0, 0.25);
+  }
+
   /* ── Footer ─────────────────────────────────────────── */
   footer {
     padding: 2rem 1.5rem;
@@ -638,6 +776,10 @@
     .contact-link {
       width: 100%;
       max-width: 340px;
+    }
+
+    .form-row {
+      grid-template-columns: 1fr;
     }
 
     .parallax-band {
@@ -940,6 +1082,51 @@
           <span class="contact-link__value">Hanau · Rhein-Main</span>
         </div>
       </div>
+
+      <div class="contact-form-wrap">
+        <h3>Nachricht senden</h3>
+        <form class="contact-form" id="kontakt-form" novalidate>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="vorname">Vorname *</label>
+              <input type="text" id="vorname" name="vorname" required autocomplete="given-name">
+            </div>
+            <div class="form-field">
+              <label for="nachname">Nachname *</label>
+              <input type="text" id="nachname" name="nachname" required autocomplete="family-name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label for="unternehmen">Unternehmen</label>
+              <input type="text" id="unternehmen" name="unternehmen" autocomplete="organization">
+            </div>
+            <div class="form-field">
+              <label for="telefon">Telefon</label>
+              <input type="tel" id="telefon" name="telefon" autocomplete="tel">
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="email">E-Mail *</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+          </div>
+          <div class="form-field">
+            <label for="nachricht">Nachricht *</label>
+            <textarea id="nachricht" name="nachricht" required></textarea>
+          </div>
+          <fieldset class="form-interesse">
+            <legend>Ich interessiere mich für:</legend>
+            <div class="form-checkboxes">
+              <label><input type="checkbox" name="interesse" value="Individuelle Vermarktungsstrategie"> Individuelle Vermarktungsstrategie</label>
+              <label><input type="checkbox" name="interesse" value="Umsetzbare Vertriebs- & Marketingaktivitäten"> Umsetzbare Vertriebs- &amp; Marketingaktivitäten</label>
+              <label><input type="checkbox" name="interesse" value="Digitalisierung & Automatisierung"> Digitalisierung &amp; Automatisierung</label>
+              <label><input type="checkbox" name="interesse" value="Vom Plan zur Aktion"> Vom Plan zur Aktion</label>
+            </div>
+          </fieldset>
+          <button type="submit" class="hero-cta form-submit" id="form-submit">Senden</button>
+          <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -948,6 +1135,59 @@
   <footer>
     <p>&copy; 2026 <strong>Andrea Gittens</strong> · Gittens Consulting · Vertriebsmarketing für Software &amp; Engineering</p>
   </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://kxtxviyspjhwjrfwjxcm.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4dHh2aXlzcGpod2pyZndqeGNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1Mzg4MTQsImV4cCI6MjEwMjExNDgxNH0.vAUPrjlT6KC7KX0cVDE3ZuQr17HCehdU1f0JZsCsRKk';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const form = document.getElementById('kontakt-form');
+    const messageEl = document.getElementById('form-message');
+    const submitBtn = document.getElementById('form-submit');
+
+    function showMessage(text, type) {
+      messageEl.textContent = text;
+      messageEl.className = 'form-message form-message--' + type;
+    }
+
+    form.addEventListener('submit', async function (event) {
+      event.preventDefault();
+      messageEl.className = 'form-message';
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Wird gesendet …';
+
+      const interesse = Array.from(form.querySelectorAll('input[name="interesse"]:checked'))
+        .map(function (checkbox) { return checkbox.value; });
+
+      const { error } = await supabase.from('kontaktanfragen').insert([{
+        vorname: form.vorname.value.trim(),
+        nachname: form.nachname.value.trim(),
+        unternehmen: form.unternehmen.value.trim() || null,
+        email: form.email.value.trim(),
+        telefon: form.telefon.value.trim() || null,
+        nachricht: form.nachricht.value.trim(),
+        interesse: interesse.length ? interesse : null
+      }]);
+
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Senden';
+
+      if (error) {
+        showMessage('Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder schreiben Sie direkt an info@gittens-consulting.de.', 'error');
+        return;
+      }
+
+      form.reset();
+      showMessage('Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Ich melde mich in Kürze bei Ihnen.', 'success');
+    });
+  </script>
 
 </body>
 </html>
