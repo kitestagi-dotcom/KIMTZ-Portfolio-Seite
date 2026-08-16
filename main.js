@@ -2,6 +2,26 @@
 
 document.documentElement.classList.add('js');
 
+function initializeFoldText() {
+  if (!window.FoldText) return;
+  window.FoldText.enhanceAll('.hero h1, .section-title', {
+    splitBy: 'char',
+    hinge: 'top',
+    trigger: 'scroll',
+    duration: 0.65,
+    stagger: 0.035,
+    ease: 'power3.out',
+    perspective: 700,
+    creaseShading: 0.55
+  });
+}
+
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(initializeFoldText);
+} else {
+  initializeFoldText();
+}
+
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const nav = document.querySelector('.site-nav');
 const navToggle = document.querySelector('.nav-toggle');
@@ -60,7 +80,7 @@ document.querySelectorAll('header[id], main section[id]').forEach(function (sect
   sectionObserver.observe(section);
 });
 
-const revealElements = document.querySelectorAll('.section-label, .section-title, .about-body, .profile-portrait, .focus-editorial, .highlight-card, .project-card, .contact-link, .contact-form-wrap');
+const revealElements = document.querySelectorAll('.section-label, .about-body, .profile-portrait, .focus-editorial, .highlight-card, .project-card, .contact-link, .contact-form-wrap');
 
 if (reducedMotion) {
   revealElements.forEach(function (element) {
