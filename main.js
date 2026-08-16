@@ -2,52 +2,6 @@
 
 document.documentElement.classList.add('js');
 
-let particleHeadings = [];
-const particleMotionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-function initializeParticleHeadings() {
-  if (particleHeadings.length || !window.ParticleText || !window.ResizeObserver || !window.IntersectionObserver) return;
-  try {
-    particleHeadings = window.ParticleText.enhanceAll('h1, h2, h3', {
-      particleSize: 1.8,
-      density: 4,
-      color: '#ffffff',
-      highlightColor: '#005A91',
-      scatter: 180,
-      gatherDuration: 1600,
-      stagger: 420,
-      pointerRepel: 40,
-      repelRadius: 120,
-      idleDrift: 0.7,
-      glow: true
-    });
-  } catch (error) {
-    particleHeadings.forEach(function (heading) { heading.destroy(); });
-    particleHeadings = [];
-  }
-}
-
-if (document.fonts && document.fonts.ready) {
-  document.fonts.ready.then(initializeParticleHeadings);
-} else {
-  initializeParticleHeadings();
-}
-
-function handleParticleMotionChange(event) {
-  if (event.matches) {
-    particleHeadings.forEach(function (heading) { heading.destroy(); });
-    particleHeadings = [];
-  } else {
-    initializeParticleHeadings();
-  }
-}
-
-if (particleMotionPreference.addEventListener) {
-  particleMotionPreference.addEventListener('change', handleParticleMotionChange);
-} else {
-  particleMotionPreference.addListener(handleParticleMotionChange);
-}
-
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const nav = document.querySelector('.site-nav');
 const navToggle = document.querySelector('.nav-toggle');

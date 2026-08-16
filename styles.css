@@ -64,32 +64,6 @@ body {
   outline-offset: 4px;
 }
 
-.particle-text-heading {
-  position: relative;
-  isolation: isolate;
-  overflow: visible;
-  border-radius: 0.18em;
-  background: #09090f;
-  color: #fff !important;
-}
-
-.particle-text-heading * {
-  color: inherit !important;
-}
-
-.particle-text-heading.particle-text-ready,
-.particle-text-heading.particle-text-ready * {
-  color: transparent !important;
-  text-shadow: none !important;
-}
-
-.particle-text-canvas {
-  position: absolute;
-  z-index: 2;
-  max-width: none;
-  pointer-events: none;
-}
-
 header[id],
 section[id] {
   scroll-margin-top: 5rem;
