@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Design System der Portfolio-Website von Andrea Gittens">
+  <title>Design System – Andrea Gittens</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&amp;family=Varela+Round&amp;display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #00203D;
+      --sand: #C2B5AB;
+      --accent: #C40D00;
+      --text: #201E24;
+      --bg: #F2F2ED;
+      --bg-soft: #F0EAE1;
+      --sky: #D7EAF5;
+      --link: #005A91;
+      --white: #FFFFFF;
+      --text-muted: rgba(32, 30, 36, 0.72);
+      --border: rgba(0, 32, 61, 0.16);
+      --shadow: 0 22px 60px rgba(0, 32, 61, 0.11);
+      --font-display: "Montserrat", system-ui, sans-serif;
+      --font-body: "Montserrat", system-ui, sans-serif;
+      --font-round: "Varela Round", system-ui, sans-serif;
+      --radius-control: 10px;
+      --radius-card: 18px;
+      --radius-pill: 999px;
+      --max-width: 1180px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 18px;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, a {
+      font: inherit;
+    }
+
+    :focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 100;
+      padding: 0.6rem 0.9rem;
+      border-radius: var(--radius-pill);
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-160%);
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .page-header {
+      position: relative;
+      min-height: 70vh;
+      display: grid;
+      align-items: end;
+      overflow: hidden;
+      padding: clamp(7rem, 13vw, 11rem) max(1.25rem, calc((100vw - var(--max-width)) / 2)) 4rem;
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .page-header::before {
+      content: "AG";
+      position: absolute;
+      top: -0.18em;
+      right: -0.05em;
+      color: rgba(255, 255, 255, 0.045);
+      font-size: clamp(15rem, 42vw, 38rem);
+      font-weight: 900;
+      letter-spacing: -0.09em;
+      line-height: 1;
+    }
+
+    .page-header__content {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      padding: 0.4rem 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: var(--radius-pill);
+      color: var(--sky);
+      font-size: 0.68rem;
+      font-weight: 750;
+      letter-spacing: 0.17em;
+      text-transform: uppercase;
+    }
+
+    .page-header h1 {
+      max-width: 10ch;
+      margin: 1.25rem 0 1.5rem;
+      font-size: clamp(3.2rem, 9vw, 7.2rem);
+      font-weight: 800;
+      letter-spacing: -0.055em;
+      line-height: 0.93;
+    }
+
+    .page-header p {
+      max-width: 58ch;
+      margin: 0;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: clamp(1rem, 2vw, 1.3rem);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      border-bottom: 1px solid var(--border);
+      background: rgba(242, 242, 237, 0.92);
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar__inner {
+      width: min(var(--max-width), calc(100% - 2rem));
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 64px;
+    }
+
+    .brand-mark {
+      color: var(--primary);
+      font-weight: 900;
+      letter-spacing: -0.05em;
+    }
+
+    .section-nav {
+      display: flex;
+      gap: 0.35rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .section-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .section-nav a {
+      flex: 0 0 auto;
+      padding: 0.4rem 0.65rem;
+      border-radius: var(--radius-pill);
+      color: rgba(0, 32, 61, 0.66);
+      font-size: 0.67rem;
+      font-weight: 750;
+      letter-spacing: 0.09em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .section-nav a:hover,
+    .section-nav a[aria-current="location"] {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    main {
+      width: min(var(--max-width), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .system-section {
+      padding: clamp(4.5rem, 9vw, 8rem) 0;
+      border-bottom: 1px solid var(--border);
+      scroll-margin-top: 75px;
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(180px, 0.35fr) minmax(0, 1fr);
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-number {
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: var(--primary);
+      font-size: clamp(2.2rem, 5vw, 4.4rem);
+      font-weight: 800;
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+
+    .section-heading p {
+      max-width: 65ch;
+      margin: 1rem 0 0;
+      color: var(--text-muted);
+    }
+
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+
+    .color-card {
+      grid-column: span 3;
+      min-height: 230px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.25rem;
+      border: 0;
+      border-radius: var(--radius-card);
+      background: var(--swatch);
+      color: var(--swatch-text);
+      cursor: pointer;
+      text-align: left;
+      box-shadow: inset 0 0 0 1px rgba(0, 32, 61, 0.1);
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+
+    .color-card:nth-child(1),
+    .color-card:nth-child(5),
+    .color-card:nth-child(7),
+    .color-card:nth-child(8) {
+      grid-column: span 6;
+    }
+
+    .color-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow);
+    }
+
+    .color-card__role {
+      max-width: 28ch;
+      opacity: 0.72;
+      font-size: 0.75rem;
+    }
+
+    .color-card__name {
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: 1.05rem;
+      font-weight: 750;
+    }
+
+    .color-card__value {
+      font-size: 0.72rem;
+      font-weight: 650;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .type-family {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .font-card {
+      min-height: 310px;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      border-radius: var(--radius-card);
+      background: var(--white);
+      box-shadow: inset 0 0 0 1px var(--border);
+    }
+
+    .font-card--round {
+      background: var(--sky);
+      font-family: var(--font-round);
+    }
+
+    .font-card__meta {
+      color: var(--link);
+      font-size: 0.68rem;
+      font-weight: 750;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .font-card__sample {
+      margin: 2rem 0 1.25rem;
+      color: var(--primary);
+      font-size: clamp(2.7rem, 7vw, 5.8rem);
+      letter-spacing: -0.055em;
+      line-height: 0.9;
+    }
+
+    .font-card p {
+      max-width: 45ch;
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    .type-scale {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      background: var(--white);
+    }
+
+    .type-row {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      align-items: baseline;
+      gap: 1.5rem;
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .type-row:last-child {
+      border-bottom: 0;
+    }
+
+    .type-row__token {
+      color: var(--link);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .type-row__sample {
+      margin: 0;
+      color: var(--primary);
+      font-size: var(--sample-size);
+      font-weight: var(--sample-weight);
+      letter-spacing: var(--sample-spacing, normal);
+      line-height: var(--sample-line, 1.2);
+    }
+
+    .weights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .weight {
+      padding: 1.2rem;
+      border-radius: var(--radius-control);
+      background: var(--bg-soft);
+    }
+
+    .weight strong {
+      display: block;
+      color: var(--primary);
+      font-size: 1.3rem;
+      font-weight: var(--weight);
+    }
+
+    .weight span {
+      color: var(--text-muted);
+      font-size: 0.7rem;
+    }
+
+    .component-stage {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .component-panel {
+      min-height: 330px;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      border-radius: var(--radius-card);
+      background: var(--white);
+      box-shadow: inset 0 0 0 1px var(--border);
+    }
+
+    .component-panel--dark {
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .component-panel h3 {
+      margin: 0 0 2rem;
+      color: inherit;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .button-stack {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      min-height: 50px;
+      padding: 0.85rem 1.35rem;
+      border: 1px solid transparent;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s, background 0.2s, border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover,
+    .force-hover .btn:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .btn--primary {
+      background: var(--accent);
+      color: var(--white);
+      box-shadow: 0 16px 35px rgba(196, 13, 0, 0.18);
+    }
+
+    .btn--primary:hover,
+    .force-hover .btn--primary {
+      background: var(--primary);
+      box-shadow: 0 18px 42px rgba(0, 32, 61, 0.22);
+    }
+
+    .component-panel--dark .btn--primary:hover,
+    .force-hover .component-panel--dark .btn--primary {
+      background: var(--white);
+      color: var(--primary);
+    }
+
+    .btn--secondary {
+      border-color: rgba(0, 32, 61, 0.3);
+      background: transparent;
+      color: var(--primary);
+    }
+
+    .btn--secondary:hover,
+    .force-hover .btn--secondary {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .component-panel--dark .btn--secondary {
+      border-color: rgba(255, 255, 255, 0.42);
+      color: var(--white);
+    }
+
+    .component-panel--dark .btn--secondary:hover,
+    .force-hover .component-panel--dark .btn--secondary {
+      border-color: var(--sky);
+      background: var(--sky);
+      color: var(--primary);
+    }
+
+    .btn--text {
+      min-height: auto;
+      padding: 0.2rem 0;
+      border-radius: 0;
+      color: var(--link);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .btn--text:hover,
+    .force-hover .btn--text {
+      color: var(--accent);
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .chip-set {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 2.5rem;
+    }
+
+    .chip {
+      padding: 0.45rem 0.7rem;
+      border: 1px solid rgba(0, 32, 61, 0.18);
+      border-radius: var(--radius-pill);
+      background: rgba(194, 181, 171, 0.18);
+      color: var(--primary);
+      font-size: 0.74rem;
+      font-weight: 650;
+    }
+
+    .component-panel--dark .chip {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(215, 234, 245, 0.1);
+      color: var(--sky);
+    }
+
+    .state-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-control);
+      background: var(--bg-soft);
+    }
+
+    .state-control span {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+      padding: 0;
+      border: 0;
+      border-radius: var(--radius-pill);
+      background: var(--sand);
+      cursor: pointer;
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--white);
+      transition: transform 0.2s;
+    }
+
+    .switch[aria-pressed="true"] {
+      background: var(--accent);
+    }
+
+    .switch[aria-pressed="true"]::after {
+      transform: translateX(22px);
+    }
+
+    .radius-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .radius-card {
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.3rem;
+      border: 1px solid var(--border);
+      background: var(--white);
+      border-radius: var(--radius-demo);
+    }
+
+    .radius-card__shape {
+      width: 84px;
+      height: 84px;
+      border-radius: var(--radius-demo);
+      background: linear-gradient(135deg, var(--sky), var(--sand));
+    }
+
+    .radius-card strong {
+      display: block;
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+
+    .radius-card code {
+      color: var(--link);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.7rem;
+    }
+
+    .usage-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .usage-card {
+      padding: 1.5rem;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius-card) var(--radius-card) 0;
+      background: rgba(215, 234, 245, 0.36);
+    }
+
+    .usage-card h3 {
+      margin: 0 0 0.5rem;
+      color: var(--primary);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .usage-card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.86rem;
+    }
+
+    .token-export {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      border-radius: var(--radius-card);
+      background: var(--primary);
+      color: var(--white);
+    }
+
+    .token-export h3 {
+      margin: 0 0 0.4rem;
+      font-size: 1.4rem;
+    }
+
+    .token-export p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.68);
+      font-size: 0.82rem;
+    }
+
+    footer {
+      padding: 2.5rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      text-align: center;
+    }
+
+    .toast {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      z-index: 100;
+      max-width: calc(100% - 2rem);
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius-control);
+      background: var(--text);
+      color: var(--white);
+      font-size: 0.76rem;
+      font-weight: 650;
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .toast.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      .color-card,
+      .color-card:nth-child(1),
+      .color-card:nth-child(5),
+      .color-card:nth-child(7),
+      .color-card:nth-child(8) {
+        grid-column: span 6;
+      }
+
+      .type-family,
+      .component-stage {
+        grid-template-columns: 1fr;
+      }
+
+      .radius-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .usage-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      html {
+        font-size: 16px;
+      }
+
+      .topbar__inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 0.7rem 0;
+      }
+
+      .section-nav {
+        width: 100%;
+      }
+
+      .section-heading {
+        grid-template-columns: 1fr;
+        gap: 0.7rem;
+      }
+
+      .color-card,
+      .color-card:nth-child(1),
+      .color-card:nth-child(5),
+      .color-card:nth-child(7),
+      .color-card:nth-child(8) {
+        grid-column: span 12;
+        min-height: 190px;
+      }
+
+      .type-row {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+      }
+
+      .type-row__sample {
+        overflow-wrap: anywhere;
+      }
+
+      .weights {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .radius-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .token-export {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
+
+  <header class="page-header">
+    <div class="page-header__content">
+      <span class="eyebrow">Digital Design System · Version 1.0</span>
+      <h1>Clarity in every detail.</h1>
+      <p>Die visuelle Grundlage der Portfolio-Website von Andrea Gittens: professionell, strukturiert, warm und konsequent auf Wirkung ausgerichtet.</p>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <div class="topbar__inner">
+      <span class="brand-mark">AG</span>
+      <nav class="section-nav" aria-label="Design-System-Navigation">
+        <a href="#colors">Farben</a>
+        <a href="#typography">Schriften</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#radii">Rundungen</a>
+        <a href="#principles">Prinzipien</a>
+      </nav>
+    </div>
+  </div>
+
+  <main id="main-content">
+    <section class="system-section" id="colors" aria-labelledby="colors-title">
+      <div class="section-heading">
+        <span class="section-number">01 · Foundation</span>
+        <div>
+          <h2 id="colors-title">Markenfarben</h2>
+          <p>Oxford Blue und Silver führen die Marke. Engineering Orange setzt gezielte Akzente. Helle Naturtöne schaffen Ruhe und ausreichend Weißraum. Klicken kopiert den HEX-Wert.</p>
+        </div>
+      </div>
+
+      <div class="color-grid">
+        <button class="color-card" style="--swatch:#00203D;--swatch-text:#FFFFFF" data-copy="#00203D" aria-label="Oxford Blue, Wert kopieren">
+          <span class="color-card__role">Primärfarbe · Navigation, Headlines, dunkle Flächen</span>
+          <span><span class="color-card__name">Oxford Blue</span><span class="color-card__value">#00203D</span></span>
+        </button>
+        <button class="color-card" style="--swatch:#C40D00;--swatch-text:#FFFFFF" data-copy="#C40D00" aria-label="Engineering Orange, Wert kopieren">
+          <span class="color-card__role">Akzent · CTA, Fokus, aktive Elemente</span>
+          <span><span class="color-card__name">Engineering Orange</span><span class="color-card__value">#C40D00</span></span>
+        </button>
+        <button class="color-card" style="--swatch:#005A91;--swatch-text:#FFFFFF" data-copy="#005A91" aria-label="Lapiz Lazuli, Wert kopieren">
+          <span class="color-card__role">Linkfarbe · interaktive Textakzente</span>
+          <span><span class="color-card__name">Lapiz Lazuli</span><span class="color-card__value">#005A91</span></span>
+        </button>
+        <button class="color-card" style="--swatch:#201E24;--swatch-text:#FFFFFF" data-copy="#201E24" aria-label="Raisin Black, Wert kopieren">
+          <span class="color-card__role">Textfarbe · weicher als reines Schwarz</span>
+          <span><span class="color-card__name">Raisin Black</span><span class="color-card__value">#201E24</span></span>
+        </button>
+        <button class="color-card" style="--swatch:#C2B5AB;--swatch-text:#201E24" data-copy="#C2B5AB" aria-label="Silver, Wert kopieren">
+          <span class="color-card__role">Sekundärfarbe · Flächen, Linien und ruhige Kontraste</span>
+          <span><span class="color-card__name">Silver</span><span class="color-card__value">#C2B5AB</span></span>
+        </button>
+        <button class="color-card" style="--swatch:#F2F2ED;--swatch-text:#201E24" data-copy="#F2F2ED" aria-label="Isabelline, Wert kopieren">
+          <span class="color-card__role">Seitenhintergrund · neutral und warm</span>
+          <span><span class="color-card__name">Isabelline</span><span class="color-card__value">#F2F2ED</span></span>
+        </button>
+        <button class="color-card" style="--swatch:#F0EAE1;--swatch-text:#201E24" data-copy="#F0EAE1" aria-label="Alabaster, Wert kopieren">
+          <span class="color-card__role">Weiche Fläche · Karten und Formulare</span>
+          <span><span class="color-card__name">Alabaster</span><span class="color-card__value">#F0EAE1</span></span>
+        </button>
+        <button class="color-card" style="--swatch:#D7EAF5;--swatch-text:#00203D" data-copy="#D7EAF5" aria-label="Alice Blue, Wert kopieren">
+          <span class="color-card__role">Frische Fläche · sparsam und nicht zu kühl</span>
+          <span><span class="color-card__name">Alice Blue</span><span class="color-card__value">#D7EAF5</span></span>
+        </button>
+      </div>
+    </section>
+
+    <section class="system-section" id="typography" aria-labelledby="typography-title">
+      <div class="section-heading">
+        <span class="section-number">02 · Typography</span>
+        <div>
+          <h2 id="typography-title">Schriften &amp; Hierarchie</h2>
+          <p>Montserrat ist die zentrale Website-Schrift. Varela Round ist die optionale Markenschrift für ausgewählte, weichere Akzente und den Logo-Kontext.</p>
+        </div>
+      </div>
+
+      <div class="type-family">
+        <article class="font-card">
+          <span class="font-card__meta">Primary · Montserrat</span>
+          <div class="font-card__sample">Aa</div>
+          <p>Headlines, Fließtext, Navigation und UI. Klar, modern und belastbar über alle Größen und Gewichte.</p>
+        </article>
+        <article class="font-card font-card--round">
+          <span class="font-card__meta">Secondary · Varela Round</span>
+          <div class="font-card__sample">Aa</div>
+          <p>Optional für einzelne Markenakzente. Nicht parallel für lange Texte oder zentrale UI-Beschriftungen verwenden.</p>
+        </article>
+      </div>
+
+      <div class="type-scale" aria-label="Typografische Skala">
+        <div class="type-row">
+          <span class="type-row__token">Display · clamp(2.6rem, 7vw, 5.1rem)</span>
+          <p class="type-row__sample" style="--sample-size:clamp(2.6rem,7vw,5.1rem);--sample-weight:900;--sample-spacing:-0.03em;--sample-line:1.02">Sales &amp; Marketing</p>
+        </div>
+        <div class="type-row">
+          <span class="type-row__token">H2 · clamp(2rem, 5vw, 3.1rem)</span>
+          <p class="type-row__sample" style="--sample-size:clamp(2rem,5vw,3.1rem);--sample-weight:900;--sample-spacing:-0.03em;--sample-line:1.1">Strategie wird Wirkung</p>
+        </div>
+        <div class="type-row">
+          <span class="type-row__token">H3 · clamp(1.4rem, 2.5vw, 1.75rem)</span>
+          <p class="type-row__sample" style="--sample-size:clamp(1.4rem,2.5vw,1.75rem);--sample-weight:900;--sample-spacing:-0.02em">Launches &amp; Markteintritt</p>
+        </div>
+        <div class="type-row">
+          <span class="type-row__token">Lead · clamp(1.2rem, 2.5vw, 1.6rem)</span>
+          <p class="type-row__sample" style="--sample-size:clamp(1.2rem,2.5vw,1.6rem);--sample-weight:600;--sample-line:1.45">Klarheit verbindet Strategie und Umsetzung.</p>
+        </div>
+        <div class="type-row">
+          <span class="type-row__token">Body · 1rem / 1.6</span>
+          <p class="type-row__sample" style="--sample-size:1rem;--sample-weight:400;--sample-line:1.6">Professionelle Kommunikation auf Augenhöhe, fokussiert auf konkrete Ergebnisse.</p>
+        </div>
+        <div class="type-row">
+          <span class="type-row__token">Label · 0.72rem / uppercase</span>
+          <p class="type-row__sample" style="--sample-size:0.72rem;--sample-weight:800;--sample-spacing:0.16em">Schwerpunkte · Go-to-Market</p>
+        </div>
+      </div>
+
+      <div class="weights" aria-label="Montserrat Schriftschnitte">
+        <div class="weight" style="--weight:300"><strong>Light</strong><span>300 · ruhige Zusatztexte</span></div>
+        <div class="weight" style="--weight:400"><strong>Regular</strong><span>400 · Fließtext</span></div>
+        <div class="weight" style="--weight:500"><strong>Medium</strong><span>500 · Lead und Meta</span></div>
+        <div class="weight" style="--weight:600"><strong>Semibold</strong><span>600 · Hervorhebungen</span></div>
+        <div class="weight" style="--weight:700"><strong>Bold</strong><span>700 · Labels und UI</span></div>
+        <div class="weight" style="--weight:800"><strong>Extra Bold</strong><span>800/900 · Headlines</span></div>
+      </div>
+    </section>
+
+    <section class="system-section" id="buttons" aria-labelledby="buttons-title">
+      <div class="section-heading">
+        <span class="section-number">03 · Components</span>
+        <div>
+          <h2 id="buttons-title">Buttons &amp; Aktionen</h2>
+          <p>Aktionen sind deutlich, knapp beschriftet und pillenförmig. Engineering Orange kennzeichnet die wichtigste Handlung; Oxford Blue übernimmt im Hover-Zustand.</p>
+        </div>
+      </div>
+
+      <div class="state-control">
+        <span>Hover-Zustände dauerhaft anzeigen</span>
+        <button class="switch" id="hover-toggle" type="button" aria-pressed="false" aria-label="Hover-Zustände umschalten"></button>
+      </div>
+
+      <div class="component-stage" id="button-stage">
+        <article class="component-panel">
+          <h3>Auf hellem Hintergrund</h3>
+          <div class="button-stack">
+            <button class="btn btn--primary" type="button">Gespräch buchen</button>
+            <button class="btn btn--secondary" type="button">Mehr erfahren</button>
+            <button class="btn btn--text" type="button">Profil ansehen</button>
+            <button class="btn btn--primary" type="button" disabled>Wird gesendet</button>
+          </div>
+          <div class="chip-set">
+            <span class="chip">B2B Software</span>
+            <span class="chip">CAE / Simulation</span>
+            <span class="chip">International</span>
+          </div>
+        </article>
+
+        <article class="component-panel component-panel--dark">
+          <h3>Auf dunklem Hintergrund</h3>
+          <div class="button-stack">
+            <button class="btn btn--primary" type="button">Kontakt aufnehmen</button>
+            <button class="btn btn--secondary" type="button">LinkedIn</button>
+          </div>
+          <div class="chip-set">
+            <span class="chip">Positionierung</span>
+            <span class="chip">Enablement</span>
+            <span class="chip">Pipeline</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="system-section" id="radii" aria-labelledby="radii-title">
+      <div class="section-heading">
+        <span class="section-number">04 · Shape</span>
+        <div>
+          <h2 id="radii-title">Rundungen &amp; Formen</h2>
+          <p>Die Formensprache bleibt klar und strukturiert. Ecken sind leicht gerundet; starke Rundungen sind funktionalen Elementen wie Chips und Buttons vorbehalten.</p>
+        </div>
+      </div>
+
+      <div class="radius-grid">
+        <article class="radius-card" style="--radius-demo:0">
+          <div class="radius-card__shape"></div>
+          <div><strong>Sharp</strong><code>0px · Linien und Layout</code></div>
+        </article>
+        <article class="radius-card" style="--radius-demo:10px">
+          <div class="radius-card__shape"></div>
+          <div><strong>Control</strong><code>10px · Inputs, Meldungen</code></div>
+        </article>
+        <article class="radius-card" style="--radius-demo:18px">
+          <div class="radius-card__shape"></div>
+          <div><strong>Card</strong><code>18px · Karten, Bilder</code></div>
+        </article>
+        <article class="radius-card" style="--radius-demo:999px">
+          <div class="radius-card__shape"></div>
+          <div><strong>Pill</strong><code>999px · Buttons, Chips</code></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="system-section" id="principles" aria-labelledby="principles-title">
+      <div class="section-heading">
+        <span class="section-number">05 · Guidance</span>
+        <div>
+          <h2 id="principles-title">Gestaltungsprinzipien</h2>
+          <p>Die Markenwirkung entsteht nicht durch einzelne Effekte, sondern durch konsequente Anwendung über alle Kontaktpunkte.</p>
+        </div>
+      </div>
+
+      <div class="usage-grid">
+        <article class="usage-card">
+          <h3>Whitespace</h3>
+          <p>Großzügige Abstände schaffen Ruhe, Wertigkeit und Raum zum Atmen. Inhalte nicht unnötig verdichten.</p>
+        </article>
+        <article class="usage-card">
+          <h3>Farbdisziplin</h3>
+          <p>Orange gezielt für Fokus und Handlungen einsetzen. Alice Blue sparsam nutzen, damit die Wirkung warm bleibt.</p>
+        </article>
+        <article class="usage-card">
+          <h3>Klare Sprache</h3>
+          <p>Professionell, verständlich und lösungsorientiert formulieren. Ergebnisse vor abstrakte Versprechen stellen.</p>
+        </article>
+      </div>
+
+      <div class="token-export" style="margin-top:2rem">
+        <div>
+          <h3>CSS-Tokens übernehmen</h3>
+          <p>Kopiert die zentralen Farben und Rundungen als CSS Custom Properties.</p>
+        </div>
+        <button class="btn btn--primary" id="copy-tokens" type="button">Tokens kopieren</button>
+      </div>
+    </section>
+  </main>
+
+  <footer>Design System · Andrea Gittens · Stand August 2026</footer>
+  <p class="toast" id="toast" role="status" aria-live="polite"></p>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var toast = document.getElementById('toast');
+      var toastTimer;
+
+      function showToast(message) {
+        window.clearTimeout(toastTimer);
+        toast.textContent = message;
+        toast.classList.add('is-visible');
+        toastTimer = window.setTimeout(function () {
+          toast.classList.remove('is-visible');
+        }, 1800);
+      }
+
+      async function copyText(value, confirmation) {
+        try {
+          await navigator.clipboard.writeText(value);
+        } catch (error) {
+          var input = document.createElement('textarea');
+          input.value = value;
+          input.style.position = 'fixed';
+          input.style.opacity = '0';
+          document.body.appendChild(input);
+          input.select();
+          document.execCommand('copy');
+          input.remove();
+        }
+        showToast(confirmation);
+      }
+
+      document.querySelectorAll('[data-copy]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          copyText(button.dataset.copy, button.dataset.copy + ' kopiert');
+        });
+      });
+
+      var hoverToggle = document.getElementById('hover-toggle');
+      var buttonStage = document.getElementById('button-stage');
+      hoverToggle.addEventListener('click', function () {
+        var active = hoverToggle.getAttribute('aria-pressed') !== 'true';
+        hoverToggle.setAttribute('aria-pressed', String(active));
+        buttonStage.classList.toggle('force-hover', active);
+      });
+
+      var tokenText = ':root {\n' +
+        '  --primary: #00203D;\n' +
+        '  --sand: #C2B5AB;\n' +
+        '  --accent: #C40D00;\n' +
+        '  --text: #201E24;\n' +
+        '  --bg: #F2F2ED;\n' +
+        '  --bg-soft: #F0EAE1;\n' +
+        '  --sky: #D7EAF5;\n' +
+        '  --link: #005A91;\n' +
+        '  --radius-control: 10px;\n' +
+        '  --radius-card: 18px;\n' +
+        '  --radius-pill: 999px;\n' +
+        '}';
+
+      document.getElementById('copy-tokens').addEventListener('click', function () {
+        copyText(tokenText, 'CSS-Tokens kopiert');
+      });
+
+      var navLinks = Array.from(document.querySelectorAll('.section-nav a'));
+      var sectionObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          navLinks.forEach(function (link) {
+            if (link.getAttribute('href') === '#' + entry.target.id) {
+              link.setAttribute('aria-current', 'location');
+            } else {
+              link.removeAttribute('aria-current');
+            }
+          });
+        });
+      }, { rootMargin: '-25% 0px -65% 0px' });
+
+      document.querySelectorAll('.system-section').forEach(function (section) {
+        sectionObserver.observe(section);
+      });
+    })();
+  </script>
+</body>
+</html>
