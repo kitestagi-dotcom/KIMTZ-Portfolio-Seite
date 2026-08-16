@@ -26,7 +26,7 @@
       --text-muted: rgba(32, 30, 36, 0.72);
       --border: rgba(0, 32, 61, 0.16);
       --shadow: 0 22px 60px rgba(0, 32, 61, 0.11);
-      --font-display: "Montserrat", system-ui, sans-serif;
+      --font-display: "Varela Round", system-ui, sans-serif;
       --font-body: "Montserrat", system-ui, sans-serif;
       --font-round: "Varela Round", system-ui, sans-serif;
       --radius-control: 10px;
@@ -47,6 +47,12 @@
       font-family: var(--font-body);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--font-display);
     }
 
     button, a {
@@ -360,6 +366,10 @@
       font-weight: var(--sample-weight);
       letter-spacing: var(--sample-spacing, normal);
       line-height: var(--sample-line, 1.2);
+    }
+
+    .type-row:nth-child(-n+3) .type-row__sample {
+      font-family: var(--font-display);
     }
 
     .weights {
@@ -860,20 +870,20 @@
 
       <div class="type-family">
         <article class="font-card">
-          <span class="font-card__meta">Primary · Montserrat</span>
+          <span class="font-card__meta">Primary · Montserrat · Body &amp; UI</span>
           <div class="font-card__sample">Aa</div>
-          <p>Headlines, Fließtext, Navigation und UI. Klar, modern und belastbar über alle Größen und Gewichte.</p>
+          <p>Fließtext, Navigation und UI. Klar, modern und belastbar über alle Größen und Gewichte.</p>
         </article>
         <article class="font-card font-card--round">
-          <span class="font-card__meta">Secondary · Varela Round</span>
+          <span class="font-card__meta">Headlines · Varela Round</span>
           <div class="font-card__sample">Aa</div>
-          <p>Optional für einzelne Markenakzente. Nicht parallel für lange Texte oder zentrale UI-Beschriftungen verwenden.</p>
+          <p>Verbindliche Schrift für Display-Text sowie Überschriften der Ebenen H1 bis H3. Nicht für lange Fließtexte verwenden.</p>
         </article>
       </div>
 
       <div class="type-scale" aria-label="Typografische Skala">
         <div class="type-row">
-          <span class="type-row__token">Display · clamp(2.6rem, 7vw, 5.1rem)</span>
+          <span class="type-row__token">Display · Varela Round · clamp(2.6rem, 7vw, 5.1rem)</span>
           <p class="type-row__sample" style="--sample-size:clamp(2.6rem,7vw,5.1rem);--sample-weight:900;--sample-spacing:-0.03em;--sample-line:1.02">Sales &amp; Marketing</p>
         </div>
         <div class="type-row">
