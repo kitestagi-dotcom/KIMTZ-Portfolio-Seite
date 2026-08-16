@@ -3,25 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Andrea Gittens – Head of Sales & Marketing (B2B Software & Engineering)</title>
+  <title>Andrea Gittens – Head of Sales &amp; Marketing (B2B Software &amp; Engineering)</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Montserrat (Body) + fallback for Valero Round if not self-hosted -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
+  <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
+
   <!-- Navigation -->
-  <nav aria-label="Hauptnavigation">
-    <a href="#hero">Start</a>
-    <a href="#profile">Profil</a>
-    <a href="#focus">Schwerpunkte</a>
-    <a href="#roles">Rollen &amp; Stationen</a>
-    <a href="#signals">Erfolge</a>
-    <a href="#contact">Kontakt</a>
+  <nav class="site-nav" aria-label="Hauptnavigation">
+    <a class="nav-brand" href="#hero" aria-label="Andrea Gittens – Startseite">AG</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
+      <span>Menü</span>
+      <span class="nav-toggle__icon" aria-hidden="true"></span>
+    </button>
+    <div class="nav-links" id="site-navigation">
+      <a href="#hero">Start</a>
+      <a href="#profile">Profil</a>
+      <a href="#focus">Schwerpunkte</a>
+      <a href="#roles">Rollen &amp; Stationen</a>
+      <a href="#signals">Erfolge</a>
+      <a href="#contact">Kontakt</a>
+    </div>
+    <span class="scroll-progress" aria-hidden="true"></span>
   </nav>
 
   <!-- Hero mit CSS-Parallax -->
@@ -36,27 +46,32 @@
     </div>
 
     <div class="parallax-layer parallax-layer--front">
-      <span class="hero-tag">B2B &middot; CAE &middot; Virtuelle Produktentwicklung</span>
-      <h1>
-        Head of <span class="accent">Sales</span> &amp; <span class="accent">Marketing</span>
-      </h1>
-      <p class="hero-role">
-        Ich baue Positionierung, Go-to-Market und Sales Enablement so auf,
-        dass daraus <span class="accent">Pipeline</span>, <span class="accent">Launch-Erfolg</span>
-        und planbares <span class="accent">Wachstum</span> werden.
-      </p>
-      <div class="hero-meta" aria-label="Fokus">
-        <span class="chip">B2B Software &amp; Engineering</span>
-        <span class="chip">CAE / Simulation</span>
-        <span class="chip">International</span>
+      <div class="hero-copy">
+        <span class="hero-tag">B2B &middot; CAE &middot; Virtuelle Produktentwicklung</span>
+        <h1>
+          Head of <span class="accent">Sales</span> &amp; <span class="accent">Marketing</span>
+        </h1>
+        <p class="hero-role">
+          Ich baue Positionierung, Go-to-Market und Sales Enablement so auf,
+          dass daraus <span class="accent">Pipeline</span>, <span class="accent">Launch-Erfolg</span>
+          und planbares <span class="accent">Wachstum</span> werden.
+        </p>
+        <div class="hero-meta" aria-label="Fokus">
+          <span class="chip">B2B Software &amp; Engineering</span>
+          <span class="chip">CAE / Simulation</span>
+          <span class="chip">International</span>
+        </div>
+        <a class="hero-cta" href="https://calendly.com/andrea-gittens-consulting/30min" target="_blank" rel="noopener noreferrer">30-Min-Gespräch buchen</a>
       </div>
-      <a class="hero-cta" href="https://calendly.com/andrea-gittens-consulting/30min" target="_blank" rel="noopener noreferrer">30-Min-Gespräch buchen</a>
+      <figure class="hero-photo">
+        <img src="AndreaGittens 14-2500.jpg" alt="Porträt von Andrea Gittens" width="1668" height="2500" fetchpriority="high">
+      </figure>
     </div>
 
     <p class="scroll-hint" aria-hidden="true">↓ Scrollen</p>
   </header>
 
-  <main>
+  <main id="main-content">
 
   <!-- Profil -->
   <section id="profile" aria-labelledby="profile-title">
@@ -106,18 +121,23 @@
           </ul>
         </div>
 
-        <div class="about-highlights">
-          <div class="highlight-card">
-            <h3>Führung &amp; Aufbau</h3>
-            <p>Aufbau und Leitung einer deutschen Marketingorganisation im internationalen Umfeld.</p>
-          </div>
-          <div class="highlight-card">
-            <h3>Matrix &amp; global</h3>
-            <p>Zusammenarbeit in globalen Matrix-Teams (Corporate Marketing, Vertrieb, Produktentwicklung, Kunden).</p>
-          </div>
-          <div class="highlight-card">
-            <h3>10 BizDevs &amp; Enablement</h3>
-            <p>Enablement für Business-Development-Teams (ca. 10 Personen): Storyline, Materialien und Abläufe.</p>
+        <div class="profile-aside">
+          <figure class="profile-portrait">
+            <img src="AndreaGittens2500.jpg" alt="Andrea Gittens in einem modernen Büroumfeld" width="2500" height="1667" loading="lazy">
+          </figure>
+          <div class="about-highlights">
+            <div class="highlight-card">
+              <h3>Führung &amp; Aufbau</h3>
+              <p>Aufbau und Leitung einer deutschen Marketingorganisation im internationalen Umfeld.</p>
+            </div>
+            <div class="highlight-card">
+              <h3>Matrix &amp; global</h3>
+              <p>Zusammenarbeit in globalen Matrix-Teams (Corporate Marketing, Vertrieb, Produktentwicklung, Kunden).</p>
+            </div>
+            <div class="highlight-card">
+              <h3>10 BizDevs &amp; Enablement</h3>
+              <p>Enablement für Business-Development-Teams (ca. 10 Personen): Storyline, Materialien und Abläufe.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -138,6 +158,11 @@
       <h2 class="section-title" id="focus-title">
         Woran ich arbeite &ndash; und was am Ende besser läuft
       </h2>
+
+      <figure class="focus-editorial">
+        <img src="AndreaGittens3000-32.jpg" alt="Andrea Gittens entwickelt eine Vertriebs- und Produktstrategie am Whiteboard" width="3000" height="2000" loading="lazy">
+        <figcaption>Strategie wird dann wirksam, wenn Teams daraus klare nächste Schritte ableiten können.</figcaption>
+      </figure>
 
       <div class="projects-grid">
 
@@ -272,10 +297,11 @@
           <span class="contact-link__label">Calendly</span>
           <span class="contact-link__value">30-Min-Termin buchen</span>
         </a>
-        <a class="contact-link" href="mailto:info@gittens-consulting.de">
+        <div class="contact-link contact-link--email">
           <span class="contact-link__label">E-Mail</span>
-          <span class="contact-link__value">info@gittens-consulting.de</span>
-        </a>
+          <a class="contact-link__value" href="mailto:info@gittens-consulting.de">info@gittens-consulting.de</a>
+          <button class="copy-email" type="button" data-copy-email="info@gittens-consulting.de">E-Mail kopieren</button>
+        </div>
         <a class="contact-link" href="tel:+4961814342770">
           <span class="contact-link__label">Telefon</span>
           <span class="contact-link__value">+49 6181 4342770</span>
@@ -321,15 +347,6 @@
             <label for="nachricht">Nachricht *</label>
             <textarea id="nachricht" name="nachricht" required></textarea>
           </div>
-          <fieldset class="form-interesse">
-            <legend>Ich interessiere mich für:</legend>
-            <div class="form-checkboxes">
-              <label><input type="checkbox" name="interesse" value="Individuelle Vermarktungsstrategie"> Individuelle Vermarktungsstrategie</label>
-              <label><input type="checkbox" name="interesse" value="Umsetzbare Vertriebs- & Marketingaktivitäten"> Umsetzbare Vertriebs- &amp; Marketingaktivitäten</label>
-              <label><input type="checkbox" name="interesse" value="Digitalisierung & Automatisierung"> Digitalisierung &amp; Automatisierung</label>
-              <label><input type="checkbox" name="interesse" value="Vom Plan zur Aktion"> Vom Plan zur Aktion</label>
-            </div>
-          </fieldset>
           <button type="submit" class="hero-cta form-submit" id="form-submit">Senden</button>
           <p class="form-message" id="form-message" role="status" aria-live="polite"></p>
         </form>
@@ -343,8 +360,8 @@
     <p>&copy; 2026 <strong>Andrea Gittens</strong> · Gittens Consulting · Vertriebsmarketing für Software &amp; Engineering</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="main.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 </body>
 </html>
