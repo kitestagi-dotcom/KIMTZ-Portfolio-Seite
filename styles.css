@@ -739,6 +739,10 @@ section {
   margin: 0 auto 3rem;
 }
 
+.contact-lead--intro {
+  margin-bottom: 1rem;
+}
+
 .contact-links {
   display: flex;
   flex-wrap: wrap;

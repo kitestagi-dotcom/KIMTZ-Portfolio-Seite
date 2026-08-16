@@ -175,7 +175,7 @@ form.addEventListener('submit', async function (event) {
   }
 
   if (!window.supabase) {
-    showMessage('Das Formular ist gerade nicht verfügbar. Bitte schreiben Sie direkt an info@gittens-consulting.de.', 'error');
+    showMessage('Das Formular ist gerade nicht verfügbar. Bitte schreiben Sie direkt an andrea@andreagittens.de.', 'error');
     return;
   }
 
@@ -199,7 +199,7 @@ form.addEventListener('submit', async function (event) {
     form.reset();
     showMessage('Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Ich melde mich in Kürze bei Ihnen.', 'success');
   } catch (error) {
-    showMessage('Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder schreiben Sie direkt an info@gittens-consulting.de.', 'error');
+    showMessage('Leider ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder schreiben Sie direkt an andrea@andreagittens.de.', 'error');
   } finally {
     submitBtn.disabled = false;
     form.removeAttribute('aria-busy');
