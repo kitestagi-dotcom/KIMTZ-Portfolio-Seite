@@ -154,7 +154,9 @@ copyEmailButton.addEventListener('click', async function () {
   }, 2200);
 });
 
-const N8N_WEBHOOK_URL = 'https://kitestagi.app.n8n.cloud/webhook/portfolio';
+const N8N_WEBHOOK_URL = 'https://kitestagi.app.n8n.cloud/webhook/924901f2-daf2-4707-8171-c5850be88bdc';
+const SUPABASE_URL = 'https://kxtxviyspjhwjrfwjxcm.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4dHh2aXlzcGpod2pyZndqeGNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1Mzg4MTQsImV4cCI6MjEwMjExNDgxNH0.vAUPrjlT6KC7KX0cVDE3ZuQr17HCehdU1f0JZsCsRKk';
 const form = document.getElementById('kontakt-form');
 const messageEl = document.getElementById('form-message');
 const submitBtn = document.getElementById('form-submit');
@@ -162,6 +164,28 @@ const submitBtn = document.getElementById('form-submit');
 function showMessage(text, type) {
   messageEl.textContent = text;
   messageEl.className = 'form-message form-message--' + type;
+}
+
+async function saveContactToSupabase(contact) {
+  if (!window.supabase) throw new Error('Supabase client unavailable');
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const { error } = await supabase.from('kontaktanfragen').insert([contact]);
+  if (error) throw error;
+}
+
+async function sendContactToN8n(contact) {
+  const response = await fetch(N8N_WEBHOOK_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: contact.vorname + ' ' + contact.nachname,
+      email: contact.email,
+      firma: contact.unternehmen,
+      telefon: contact.telefon,
+      nachricht: contact.nachricht
+    })
+  });
+  if (!response.ok) throw new Error('Webhook request failed: ' + response.status);
 }
 
 form.addEventListener('submit', async function (event) {
@@ -184,23 +208,22 @@ form.addEventListener('submit', async function (event) {
   submitBtn.textContent = 'Wird gesendet …';
 
   try {
-    const response = await fetch(N8N_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        vorname: form.vorname.value.trim(),
-        nachname: form.nachname.value.trim(),
-        unternehmen: form.unternehmen.value.trim() || null,
-        email: form.email.value.trim(),
-        telefon: form.telefon.value.trim() || null,
-        nachricht: form.nachricht.value.trim(),
-        quelle: 'Portfolio-Website',
-        seite: window.location.href,
-        eingereichtAm: new Date().toISOString()
-      })
-    });
+    const contact = {
+      vorname: form.vorname.value.trim(),
+      nachname: form.nachname.value.trim(),
+      unternehmen: form.unternehmen.value.trim() || null,
+      email: form.email.value.trim(),
+      telefon: form.telefon.value.trim() || null,
+      nachricht: form.nachricht.value.trim()
+    };
+    const results = await Promise.allSettled([
+      saveContactToSupabase(contact),
+      sendContactToN8n(contact)
+    ]);
 
-    if (!response.ok) throw new Error('Webhook request failed: ' + response.status);
+    if (results.every(function (result) { return result.status === 'rejected'; })) {
+      throw new Error('All contact destinations failed');
+    }
 
     form.reset();
     showMessage('Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Ich melde mich in Kürze bei Ihnen.', 'success');
