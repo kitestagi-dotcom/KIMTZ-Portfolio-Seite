@@ -27,6 +27,44 @@ const nav = document.querySelector('.site-nav');
 const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
 const sectionLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+const accessGate = document.getElementById('access-gate');
+const accessEmail = document.getElementById('access-email');
+const accessSubmit = document.getElementById('access-submit');
+const accessMessage = document.getElementById('access-message');
+const protectedContent = document.querySelectorAll('main, footer');
+const ACCESS_STORAGE_KEY = 'portfolioAccess';
+const ACCESS_DURATION = 14 * 24 * 60 * 60 * 1000;
+
+function setAccessState(unlocked) {
+  document.documentElement.classList.toggle('access-granted', unlocked);
+  document.documentElement.classList.toggle('access-locked', !unlocked);
+  nav.inert = !unlocked;
+  if (unlocked) {
+    nav.removeAttribute('aria-disabled');
+  } else {
+    nav.setAttribute('aria-disabled', 'true');
+  }
+  protectedContent.forEach(function (element) {
+    element.inert = !unlocked;
+    if (unlocked) {
+      element.removeAttribute('aria-hidden');
+    } else {
+      element.setAttribute('aria-hidden', 'true');
+    }
+  });
+
+  if (!unlocked) {
+    closeNavigation(false);
+    if (window.location.hash && window.location.hash !== '#hero') {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+    }
+    window.scrollTo(0, 0);
+  } else if (window.ScrollTrigger) {
+    window.requestAnimationFrame(function () { window.ScrollTrigger.refresh(); });
+  }
+}
+
+setAccessState(document.documentElement.classList.contains('access-granted'));
 
 function closeNavigation(returnFocus) {
   const wasOpen = navToggle.getAttribute('aria-expanded') === 'true';
@@ -49,6 +87,56 @@ sectionLinks.forEach(function (link) {
 
 document.addEventListener('keydown', function (event) {
   if (event.key === 'Escape') closeNavigation(true);
+});
+
+accessGate.addEventListener('submit', async function (event) {
+  event.preventDefault();
+  accessMessage.textContent = '';
+  accessMessage.classList.remove('is-error');
+
+  if (!accessGate.checkValidity()) {
+    accessGate.reportValidity();
+    return;
+  }
+
+  accessSubmit.disabled = true;
+  accessSubmit.textContent = 'Wird geprüft …';
+
+  try {
+    await postToN8n({
+      typ: 'portfolio-anmeldung',
+      name: 'Portfolio-Besucher',
+      email: accessEmail.value.trim(),
+      firma: null,
+      telefon: null,
+      nachricht: 'Freischaltung der Portfolio-Inhalte'
+    });
+
+    try {
+      localStorage.setItem(ACCESS_STORAGE_KEY, JSON.stringify({
+        unlocked: true,
+        timestamp: Date.now(),
+        expiresAt: Date.now() + ACCESS_DURATION,
+        version: 1
+      }));
+    } catch (storageError) {
+      // The current visit can still be unlocked if storage is unavailable.
+    }
+
+    accessMessage.textContent = 'Vielen Dank. Die Inhalte werden freigeschaltet.';
+    window.setTimeout(function () {
+      setAccessState(true);
+      accessGate.reset();
+      document.getElementById('main-content').focus();
+      accessSubmit.disabled = false;
+      accessSubmit.textContent = 'Freischalten';
+    }, 450);
+  } catch (error) {
+    accessMessage.textContent = 'Die Anmeldung konnte nicht gesendet werden. Bitte versuchen Sie es erneut.';
+    accessMessage.classList.add('is-error');
+    accessSubmit.disabled = false;
+    accessSubmit.textContent = 'Freischalten';
+  }
 });
 
 function updateScrollState() {
@@ -174,18 +262,29 @@ async function saveContactToSupabase(contact) {
 }
 
 async function sendContactToN8n(contact) {
-  const response = await fetch(N8N_WEBHOOK_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      name: contact.vorname + ' ' + contact.nachname,
-      email: contact.email,
-      firma: contact.unternehmen,
-      telefon: contact.telefon,
-      nachricht: contact.nachricht
-    })
+  return postToN8n({
+    name: contact.vorname + ' ' + contact.nachname,
+    email: contact.email,
+    firma: contact.unternehmen,
+    telefon: contact.telefon,
+    nachricht: contact.nachricht
   });
-  if (!response.ok) throw new Error('Webhook request failed: ' + response.status);
+}
+
+async function postToN8n(payload) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(function () { controller.abort(); }, 12000);
+  try {
+    const response = await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    if (!response.ok) throw new Error('Webhook request failed: ' + response.status);
+  } finally {
+    window.clearTimeout(timeout);
+  }
 }
 
 form.addEventListener('submit', async function (event) {

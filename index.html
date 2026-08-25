@@ -1,9 +1,24 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" class="access-locked">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Andrea Gittens – Head of Sales &amp; Marketing (B2B Software &amp; Engineering)</title>
+  <script>
+    (function () {
+      var key = 'portfolioAccess';
+      var unlocked = false;
+      try {
+        var access = JSON.parse(localStorage.getItem(key));
+        unlocked = Boolean(access && access.unlocked === true && access.version === 1 && access.expiresAt > Date.now());
+        if (!unlocked) localStorage.removeItem(key);
+      } catch (error) {
+        unlocked = false;
+      }
+      document.documentElement.classList.remove('access-locked', 'access-granted');
+      document.documentElement.classList.add(unlocked ? 'access-granted' : 'access-locked');
+    })();
+  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +33,7 @@
   <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
 
   <!-- Navigation -->
-  <nav class="site-nav" aria-label="Hauptnavigation">
+  <nav class="site-nav" aria-label="Hauptnavigation" aria-disabled="true" inert>
     <a class="nav-brand" href="#hero" aria-label="Andrea Gittens – Startseite">AG</a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
       <span>Menü</span>
@@ -34,6 +49,12 @@
     </div>
     <span class="scroll-progress" aria-hidden="true"></span>
   </nav>
+  <script>
+    if (document.documentElement.classList.contains('access-granted')) {
+      document.querySelector('.site-nav').removeAttribute('inert');
+      document.querySelector('.site-nav').removeAttribute('aria-disabled');
+    }
+  </script>
 
   <!-- Hero mit CSS-Parallax -->
   <header class="hero" id="hero">
@@ -72,7 +93,18 @@
     <p class="scroll-hint" aria-hidden="true">↓ Scrollen</p>
   </header>
 
-  <main id="main-content">
+  <form class="access-gate" id="access-gate" novalidate>
+    <label class="access-gate__label" for="access-email">Portfolio-Inhalte freischalten</label>
+    <p class="access-gate__intro">Melden Sie sich mit Ihrer E-Mail-Adresse an, um das vollständige Profil zu sehen.</p>
+    <div class="access-gate__row">
+      <input type="email" id="access-email" name="email" placeholder="E-Mail-Adresse" autocomplete="email" required>
+      <button class="access-gate__submit" id="access-submit" type="submit">Freischalten</button>
+    </div>
+    <p class="access-gate__privacy">Verantwortlich: Andrea Gittens. Ihre E-Mail-Adresse wird über n8n zur Anmeldung verarbeitet. Im Browser wird nur der Freischaltstatus für 14 Tage gespeichert, nicht Ihre E-Mail-Adresse. Fragen zum Datenschutz: <a href="mailto:andrea@andreagittens.de">andrea@andreagittens.de</a>.</p>
+    <p class="access-gate__message" id="access-message" role="status" aria-live="polite"></p>
+  </form>
+
+  <main id="main-content" tabindex="-1">
 
   <!-- Profil -->
   <section id="profile" aria-labelledby="profile-title">
