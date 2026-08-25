@@ -154,8 +154,7 @@ copyEmailButton.addEventListener('click', async function () {
   }, 2200);
 });
 
-const SUPABASE_URL = 'https://kxtxviyspjhwjrfwjxcm.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt4dHh2aXlzcGpod2pyZndqeGNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1Mzg4MTQsImV4cCI6MjEwMjExNDgxNH0.vAUPrjlT6KC7KX0cVDE3ZuQr17HCehdU1f0JZsCsRKk';
+const N8N_WEBHOOK_URL = 'https://kitestagi.app.n8n.cloud/webhook/portfolio';
 const form = document.getElementById('kontakt-form');
 const messageEl = document.getElementById('form-message');
 const submitBtn = document.getElementById('form-submit');
@@ -174,8 +173,9 @@ form.addEventListener('submit', async function (event) {
     return;
   }
 
-  if (!window.supabase) {
-    showMessage('Das Formular ist gerade nicht verfügbar. Bitte schreiben Sie direkt an andrea@andreagittens.de.', 'error');
+  if (form.website.value) {
+    form.reset();
+    showMessage('Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Ich melde mich in Kürze bei Ihnen.', 'success');
     return;
   }
 
@@ -184,17 +184,23 @@ form.addEventListener('submit', async function (event) {
   submitBtn.textContent = 'Wird gesendet …';
 
   try {
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const { error } = await supabase.from('kontaktanfragen').insert([{
-      vorname: form.vorname.value.trim(),
-      nachname: form.nachname.value.trim(),
-      unternehmen: form.unternehmen.value.trim() || null,
-      email: form.email.value.trim(),
-      telefon: form.telefon.value.trim() || null,
-      nachricht: form.nachricht.value.trim()
-    }]);
+    const response = await fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        vorname: form.vorname.value.trim(),
+        nachname: form.nachname.value.trim(),
+        unternehmen: form.unternehmen.value.trim() || null,
+        email: form.email.value.trim(),
+        telefon: form.telefon.value.trim() || null,
+        nachricht: form.nachricht.value.trim(),
+        quelle: 'Portfolio-Website',
+        seite: window.location.href,
+        eingereichtAm: new Date().toISOString()
+      })
+    });
 
-    if (error) throw error;
+    if (!response.ok) throw new Error('Webhook request failed: ' + response.status);
 
     form.reset();
     showMessage('Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet. Ich melde mich in Kürze bei Ihnen.', 'success');

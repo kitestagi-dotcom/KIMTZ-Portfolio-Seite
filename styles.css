@@ -836,6 +836,14 @@ a.contact-link:hover .contact-link__value,
   gap: 1.25rem;
 }
 
+.form-trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
