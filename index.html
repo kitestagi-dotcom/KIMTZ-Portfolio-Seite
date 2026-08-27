@@ -6,11 +6,12 @@
   <title>Andrea Gittens – Head of Sales &amp; Marketing (B2B Software &amp; Engineering)</title>
   <script>
     (function () {
-      var key = 'portfolioAccess';
+      var key = 'portfolioGoogleAccess';
       var unlocked = false;
       try {
+        localStorage.removeItem('portfolioAccess');
         var access = JSON.parse(localStorage.getItem(key));
-        unlocked = Boolean(access && access.unlocked === true && access.version === 1 && access.expiresAt > Date.now());
+        unlocked = Boolean(access && access.unlocked === true && access.version === 2 && access.expiresAt > Date.now());
         if (!unlocked) localStorage.removeItem(key);
       } catch (error) {
         unlocked = false;
@@ -93,16 +94,15 @@
     <p class="scroll-hint" aria-hidden="true">↓ Scrollen</p>
   </header>
 
-  <form class="access-gate" id="access-gate" novalidate>
-    <label class="access-gate__label" for="access-email">Portfolio-Inhalte freischalten</label>
-    <p class="access-gate__intro">Melden Sie sich mit Ihrer E-Mail-Adresse an, um das vollständige Profil zu sehen.</p>
-    <div class="access-gate__row">
-      <input type="email" id="access-email" name="email" placeholder="E-Mail-Adresse" autocomplete="email" required>
-      <button class="access-gate__submit" id="access-submit" type="submit">Freischalten</button>
+  <section class="access-gate" id="access-gate" aria-labelledby="access-gate-title" tabindex="-1">
+    <h2 class="access-gate__label" id="access-gate-title">Portfolio-Inhalte freischalten</h2>
+    <p class="access-gate__intro">Melden Sie sich mit einem Google-Konto an, um das vollständige Profil zu sehen.</p>
+    <div class="google-signin" id="google-signin" aria-label="Mit Google anmelden">
+      <span class="google-signin__loading">Google-Anmeldung wird geladen …</span>
     </div>
-    <p class="access-gate__privacy">Verantwortlich: Andrea Gittens. Ihre E-Mail-Adresse wird über n8n zur Anmeldung verarbeitet. Im Browser wird nur der Freischaltstatus für 14 Tage gespeichert, nicht Ihre E-Mail-Adresse. Fragen zum Datenschutz: <a href="mailto:andrea@andreagittens.de">andrea@andreagittens.de</a>.</p>
+    <p class="access-gate__privacy">Die Anmeldung erfolgt über Google. Im Browser wird nur der Freischaltstatus für 14 Tage gespeichert, nicht Ihre E-Mail-Adresse. Es gelten die <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Datenschutzbestimmungen von Google</a>. Fragen: <a href="mailto:andrea@andreagittens.de">andrea@andreagittens.de</a>.</p>
     <p class="access-gate__message" id="access-message" role="status" aria-live="polite"></p>
-  </form>
+  </section>
 
   <main id="main-content" tabindex="-1">
 

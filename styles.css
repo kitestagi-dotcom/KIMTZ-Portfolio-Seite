@@ -462,52 +462,21 @@ html.access-locked .access-gate {
   line-height: 1.45;
 }
 
-.access-gate__row {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 0.65rem;
+.google-signin {
+  width: 100%;
+  min-height: 44px;
   margin-top: 0.8rem;
 }
 
-.access-gate input {
-  min-width: 0;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid rgba(0, 32, 61, 0.24);
-  border-radius: 10px;
-  background: #fff;
-  color: var(--text);
-  font: inherit;
-  font-size: 0.9rem;
+.google-signin__loading {
+  display: inline-block;
+  padding: 0.55rem 0;
+  color: var(--text-muted);
+  font-size: 0.74rem;
 }
 
-.access-gate input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(215, 234, 245, 0.9);
-}
-
-.access-gate__submit {
-  padding: 0.75rem 1rem;
-  border: 0;
-  border-radius: 10px;
-  background: var(--accent);
-  color: #fff;
-  cursor: pointer;
-  font: inherit;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  transition: background 0.2s, opacity 0.2s;
-}
-
-.access-gate__submit:hover {
-  background: var(--primary);
-}
-
-.access-gate__submit:disabled {
-  opacity: 0.6;
-  cursor: wait;
+.google-signin > div {
+  max-width: 100%;
 }
 
 .access-gate__privacy {
@@ -1204,10 +1173,6 @@ footer strong {
 
   .hero h1 {
     font-size: clamp(2.3rem, 12vw, 4rem);
-  }
-
-  .access-gate__row {
-    grid-template-columns: 1fr;
   }
 
   html.access-locked .access-gate {

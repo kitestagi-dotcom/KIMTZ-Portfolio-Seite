@@ -28,12 +28,14 @@ const navToggle = document.querySelector('.nav-toggle');
 const navLinks = document.querySelector('.nav-links');
 const sectionLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
 const accessGate = document.getElementById('access-gate');
-const accessEmail = document.getElementById('access-email');
-const accessSubmit = document.getElementById('access-submit');
+const googleSignin = document.getElementById('google-signin');
 const accessMessage = document.getElementById('access-message');
 const protectedContent = document.querySelectorAll('main, footer');
-const ACCESS_STORAGE_KEY = 'portfolioAccess';
+const GOOGLE_CLIENT_ID = '287471729056-2te639t17asduo106iendp8a9h0ajt65.apps.googleusercontent.com';
+const ACCESS_STORAGE_KEY = 'portfolioGoogleAccess';
 const ACCESS_DURATION = 14 * 24 * 60 * 60 * 1000;
+let googleSigninInitialized = false;
+let googleResizeTimer;
 
 function setAccessState(unlocked) {
   document.documentElement.classList.toggle('access-granted', unlocked);
@@ -66,6 +68,102 @@ function setAccessState(unlocked) {
 
 setAccessState(document.documentElement.classList.contains('access-granted'));
 
+function grantGoogleAccess() {
+  try {
+    localStorage.setItem(ACCESS_STORAGE_KEY, JSON.stringify({
+      unlocked: true,
+      timestamp: Date.now(),
+      expiresAt: Date.now() + ACCESS_DURATION,
+      version: 2
+    }));
+  } catch (storageError) {
+    // The current visit can still be unlocked if storage is unavailable.
+  }
+
+  accessMessage.textContent = 'Anmeldung erfolgreich. Die Inhalte werden freigeschaltet.';
+  window.setTimeout(function () {
+    setAccessState(true);
+    document.getElementById('main-content').focus();
+  }, 350);
+}
+
+function initializeGoogleSignin() {
+  if (googleSigninInitialized || !document.documentElement.classList.contains('access-locked')) return;
+  if (!window.google || !window.google.accounts || !window.google.accounts.id) return;
+
+  try {
+    window.google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: function (response) {
+        if (!response || !response.credential) {
+          accessMessage.textContent = 'Die Google-Anmeldung konnte nicht bestätigt werden.';
+          accessMessage.classList.add('is-error');
+          return;
+        }
+        accessMessage.classList.remove('is-error');
+        grantGoogleAccess();
+      },
+      auto_select: false,
+      cancel_on_tap_outside: false
+    });
+    googleSigninInitialized = true;
+    renderGoogleSigninButton();
+  } catch (error) {
+    googleSigninInitialized = false;
+    accessMessage.textContent = 'Google Sign-In konnte nicht initialisiert werden. Bitte prüfen Sie die OAuth-Konfiguration.';
+    accessMessage.classList.add('is-error');
+  }
+}
+
+function renderGoogleSigninButton() {
+  if (!googleSigninInitialized || !document.documentElement.classList.contains('access-locked')) return;
+  try {
+    googleSignin.replaceChildren();
+    window.google.accounts.id.renderButton(googleSignin, {
+      type: 'standard',
+      theme: 'outline',
+      size: 'large',
+      shape: 'pill',
+      text: 'signin_with',
+      logo_alignment: 'left',
+      width: Math.floor(Math.min(360, googleSignin.getBoundingClientRect().width || 280))
+    });
+  } catch (error) {
+    accessMessage.textContent = 'Der Google-Anmeldebutton konnte nicht angezeigt werden. Bitte laden Sie die Seite neu.';
+    accessMessage.classList.add('is-error');
+  }
+}
+
+function loadGoogleIdentity() {
+  if (!document.documentElement.classList.contains('access-locked')) return;
+  if (window.google && window.google.accounts) {
+    initializeGoogleSignin();
+    return;
+  }
+
+  const script = document.createElement('script');
+  script.src = 'https://accounts.google.com/gsi/client';
+  script.async = true;
+  script.defer = true;
+  script.addEventListener('load', initializeGoogleSignin);
+  script.addEventListener('error', function () {
+    accessMessage.textContent = 'Google Sign-In konnte nicht geladen werden. Bitte laden Sie die Seite neu.';
+    accessMessage.classList.add('is-error');
+  });
+  document.head.appendChild(script);
+}
+
+loadGoogleIdentity();
+
+if (document.documentElement.classList.contains('access-locked')) {
+  window.requestAnimationFrame(function () { accessGate.focus(); });
+}
+
+window.addEventListener('resize', function () {
+  window.clearTimeout(googleResizeTimer);
+  googleResizeTimer = window.setTimeout(renderGoogleSigninButton, 180);
+}, { passive: true });
+
 function closeNavigation(returnFocus) {
   const wasOpen = navToggle.getAttribute('aria-expanded') === 'true';
   navToggle.setAttribute('aria-expanded', 'false');
@@ -87,56 +185,6 @@ sectionLinks.forEach(function (link) {
 
 document.addEventListener('keydown', function (event) {
   if (event.key === 'Escape') closeNavigation(true);
-});
-
-accessGate.addEventListener('submit', async function (event) {
-  event.preventDefault();
-  accessMessage.textContent = '';
-  accessMessage.classList.remove('is-error');
-
-  if (!accessGate.checkValidity()) {
-    accessGate.reportValidity();
-    return;
-  }
-
-  accessSubmit.disabled = true;
-  accessSubmit.textContent = 'Wird geprüft …';
-
-  try {
-    await postToN8n({
-      typ: 'portfolio-anmeldung',
-      name: 'Portfolio-Besucher',
-      email: accessEmail.value.trim(),
-      firma: null,
-      telefon: null,
-      nachricht: 'Freischaltung der Portfolio-Inhalte'
-    });
-
-    try {
-      localStorage.setItem(ACCESS_STORAGE_KEY, JSON.stringify({
-        unlocked: true,
-        timestamp: Date.now(),
-        expiresAt: Date.now() + ACCESS_DURATION,
-        version: 1
-      }));
-    } catch (storageError) {
-      // The current visit can still be unlocked if storage is unavailable.
-    }
-
-    accessMessage.textContent = 'Vielen Dank. Die Inhalte werden freigeschaltet.';
-    window.setTimeout(function () {
-      setAccessState(true);
-      accessGate.reset();
-      document.getElementById('main-content').focus();
-      accessSubmit.disabled = false;
-      accessSubmit.textContent = 'Freischalten';
-    }, 450);
-  } catch (error) {
-    accessMessage.textContent = 'Die Anmeldung konnte nicht gesendet werden. Bitte versuchen Sie es erneut.';
-    accessMessage.classList.add('is-error');
-    accessSubmit.disabled = false;
-    accessSubmit.textContent = 'Freischalten';
-  }
 });
 
 function updateScrollState() {
