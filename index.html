@@ -1,25 +1,9 @@
 <!DOCTYPE html>
-<html lang="de" class="access-locked">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Andrea Gittens – Head of Sales &amp; Marketing (B2B Software &amp; Engineering)</title>
-  <script>
-    (function () {
-      var key = 'portfolioGoogleAccess';
-      var unlocked = false;
-      try {
-        localStorage.removeItem('portfolioAccess');
-        var access = JSON.parse(localStorage.getItem(key));
-        unlocked = Boolean(access && access.unlocked === true && access.version === 2 && access.expiresAt > Date.now());
-        if (!unlocked) localStorage.removeItem(key);
-      } catch (error) {
-        unlocked = false;
-      }
-      document.documentElement.classList.remove('access-locked', 'access-granted');
-      document.documentElement.classList.add(unlocked ? 'access-granted' : 'access-locked');
-    })();
-  </script>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -34,7 +18,7 @@
   <a class="skip-link" href="#main-content">Zum Inhalt springen</a>
 
   <!-- Navigation -->
-  <nav class="site-nav" aria-label="Hauptnavigation" aria-disabled="true" inert>
+  <nav class="site-nav" aria-label="Hauptnavigation">
     <a class="nav-brand" href="#hero" aria-label="Andrea Gittens – Startseite">AG</a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">
       <span>Menü</span>
@@ -50,12 +34,6 @@
     </div>
     <span class="scroll-progress" aria-hidden="true"></span>
   </nav>
-  <script>
-    if (document.documentElement.classList.contains('access-granted')) {
-      document.querySelector('.site-nav').removeAttribute('inert');
-      document.querySelector('.site-nav').removeAttribute('aria-disabled');
-    }
-  </script>
 
   <!-- Hero mit CSS-Parallax -->
   <header class="hero" id="hero">
@@ -94,17 +72,7 @@
     <p class="scroll-hint" aria-hidden="true">↓ Scrollen</p>
   </header>
 
-  <section class="access-gate" id="access-gate" aria-labelledby="access-gate-title" tabindex="-1">
-    <h2 class="access-gate__label" id="access-gate-title">Portfolio-Inhalte freischalten</h2>
-    <p class="access-gate__intro">Melden Sie sich mit einem Google-Konto an, um das vollständige Profil zu sehen.</p>
-    <div class="google-signin" id="google-signin" aria-label="Mit Google anmelden">
-      <span class="google-signin__loading">Google-Anmeldung wird geladen …</span>
-    </div>
-    <p class="access-gate__privacy">Die Anmeldung erfolgt über Google. Im Browser wird nur der Freischaltstatus für 14 Tage gespeichert, nicht Ihre E-Mail-Adresse. Es gelten die <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer">Datenschutzbestimmungen von Google</a>. Fragen: <a href="mailto:andrea@andreagittens.de">andrea@andreagittens.de</a>.</p>
-    <p class="access-gate__message" id="access-message" role="status" aria-live="polite"></p>
-  </section>
-
-  <main id="main-content" tabindex="-1">
+  <main id="main-content">
 
   <!-- Profil -->
   <section id="profile" aria-labelledby="profile-title">
